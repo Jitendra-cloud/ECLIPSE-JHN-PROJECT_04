@@ -1,0 +1,9 @@
+CLASS zcjs_bp_tck_tlr DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zcjs_i_tlr_head.
+protected section.
+private section.
+ENDCLASS.
+
+
+
+CLASS ZCJS_BP_TCK_TLR IMPLEMENTATION.
+ENDCLASS.

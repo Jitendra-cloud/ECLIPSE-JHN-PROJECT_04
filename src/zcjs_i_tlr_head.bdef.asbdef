@@ -1,0 +1,238 @@
+managed implementation in class zcjs_bp_tck_tlr unique;
+strict ( 1 );
+with draft;
+
+define behavior for zcjs_i_tlr_head alias TLR_Head
+//implementation in class ZCJS_BP_TLR_HEAD unique
+persistent table zdjs_tlr_head
+with additional save
+draft table zdjs_d_tlr_head
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+authorization master ( instance, global )
+
+{
+  create;
+  update ( features : instance );
+  delete ( features : instance );
+
+  field ( mandatory )
+  aennr, leadcn, werks;
+
+  field ( readonly )
+
+  TlUUID,
+
+  TlNumber,
+  // TlStatus,
+  TlReference,
+  CtReference,
+  SwwWiID,
+  SwwWistat,
+  SwwAed,
+  WfLevel1,
+  WfLevel2,
+  WfLevel3,
+  CommentText,
+  CommentText2,
+  LocalCreatedAt,
+  LocalCreatedBy,
+  LocalLastChangedAt,
+  LocalLastChangedBy,
+  LastChangedAt;
+
+
+  field ( numbering : managed ) TlUUID;
+
+  draft action ( features : instance ) Edit;
+  draft action Activate;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare
+  {
+    validation header_validate;
+    validation itemExistancy_validate;
+    determination genTimLetNum;
+  }
+
+
+  association _Item { create; with draft; }
+  association _Comments { create; with draft; }
+
+  action ( features : instance ) fillData result [1] $self;
+  action ( features : instance ) Complete result [1] $self;
+
+  determination genTimLetNum on save { create; field TlNumber, TlStatus; }
+
+  validation header_validate on save { create; }
+  validation itemExistancy_validate on save { create; }
+
+
+  mapping for zdjs_tlr_head
+    {
+      TlUUID             = TL_UUID;
+      TlNumber           = TL_NUMBER;
+      TlStatus           = TL_STATUS;
+      TlReference        = TL_REFERENCE;
+      CtReference        = CT_REFERENCE;
+      Aennr              = AENNR;
+      SwwWiID            = SWW_WIID;
+      SwwWistat          = SWW_WISTAT;
+      SwwAed             = SWW_AED;
+      WfLevel1           = WF_LEVEL1;
+      WfLevel2           = WF_LEVEL2;
+      WfLevel3           = WF_LEVEL3;
+      Werks              = werks;
+      Autoapp            = zz_autoapp;
+      LeadCN             = lead_cn;
+      LocalCreatedBy     = LOCAL_CREATED_BY;
+      LocalCreatedAt     = LOCAL_CREATED_AT;
+      LocalLastChangedBy = LOCAL_LAST_CHANGED_BY;
+      LocalLastChangedAt = LOCAL_LAST_CHANGED_AT;
+      LastChangedAt      = LAST_CHANGED_AT;
+    }
+}
+
+define behavior for ZCJS_I_TLR_ITEM alias TLR_Item
+persistent table zdjs_tlr_item
+draft table zdjs_d_tlr_item
+etag master LocalLastChangedAt
+lock dependent by _Header
+authorization dependent by _Header
+early numbering
+
+{
+
+  field ( readonly )
+  TlUUID,
+  LocalCreatedAt,
+  LocalCreatedBy,
+  LastChangedAt,
+  LocalLastChangedAt,
+  LocalLastChangedBy,
+  ChildLevel,
+  // CurrentValidTo,
+  // CurrentValidFrom,
+  // LeadCN,
+  TLNumber,
+  // TlAction,
+  // CurrentQuantity,
+  // NewQuantity,
+  // CurrentUom,
+  // NewUom,
+  // QuanChangeFlag,
+  // UomChangeFlag,
+  SwwWiID,
+  SwwWistat,
+  SwwAed,
+  WfLevel1,
+  WfLevel2,
+  WfLevel3,
+  PlantTypeIMM,
+  PlantTypeNewIMMTL,
+  Autoapp,
+  plant,
+  // PackageCN,
+  PlantType,
+  PlantTypeNew,
+  // ItemStatus,
+  TlItemNumber;
+
+  update ( features : instance );
+  delete ( features : instance );
+
+  association _Header { with draft; }
+
+  action ( features : instance ) Submit result [1] $self;
+  action ( features : instance ) Implemented result [1] $self;
+
+  determination genTimLetItmStat on save { create; field ItemStatus; }
+
+  mapping for zdjs_tlr_item
+    {
+      TlUUID             = TL_UUID;
+      TlItemNumber       = TL_ITEM_NUMBER;
+      Plant              = PLANT;
+      TopParentPart      = TOP_PARENT_PART;
+      DirectParentPart   = DIRECT_PARENT_PART;
+      ChildPart          = CHILD_PART;
+      ChildLevel         = CHILD_LEVEL;
+      ItemStatus         = ITEM_STATUS;
+      CurrentValidFrom   = CURRENT_VALID_FROM;
+      CurrentValidTo     = CURRENT_VALID_TO;
+      TlAction           = TL_ACTION;
+      EffectiveDate      = EFFECTIVE_DATE;
+      CurrentQuantity    = CURRENT_QUANTITY;
+      NewQuantity        = NEW_QUANTITY;
+      CurrentUom         = CURRENT_UOM;
+      NewUom             = NEW_UOM;
+      QuanChangeFlag     = QUAN_CHANGE_FLAG;
+      UomChangeFlag      = UOM_CHANGE_FLAG;
+      SwwWiID            = SWW_WIID;
+      SwwWistat          = SWW_WISTAT;
+      SwwAed             = SWW_AED;
+      WfLevel1           = WF_LEVEL1;
+      WfLevel2           = WF_LEVEL2;
+      WfLevel3           = WF_LEVEL3;
+      LeadCN             = lead_cn;
+      TLNumber           = tl_number;
+      PlantTypeIMM       = zz_planttypeimm;
+      PlantTypeNewIMMTL  = zz_planttypenewimmtl;
+      Autoapp            = zz_autoapp;
+      PackageCN          = zz_pckgcn;
+      PackCN             = packagecn;
+      PlantType          = zz_planttype;
+      PlantTypeNew       = zz_planttypenew;
+      CommentText        = comment_text;
+      CommentText2       = comment_text2;
+      ChildPartTL        = child_parttl;
+      LocalCreatedBy     = LOCAL_CREATED_BY;
+      LocalCreatedAt     = LOCAL_CREATED_AT;
+      LocalLastChangedBy = LOCAL_LAST_CHANGED_BY;
+      LocalLastChangedAt = LOCAL_LAST_CHANGED_AT;
+      LastChangedAt      = LAST_CHANGED_AT;
+    }
+}
+
+define behavior for ZCJS_I_TLR_COMM alias TLR_Comments
+persistent table zdjs_tlr_comm
+draft table zdjs_d_tlr_comm
+etag master LocalLastChangedAt
+lock dependent by _Header
+authorization dependent by _Header
+
+{
+  field ( readonly )
+  TlUUID,
+  LocalCreatedAt,
+  LocalCreatedBy,
+  LastChangedAt,
+  LocalLastChangedAt,
+  CommentUUID,
+  LocalLastChangedBy;
+
+
+  field ( numbering : managed )
+  CommentUUID;
+
+  update;
+  delete;
+
+  association _Header { with draft; }
+
+  validation commentConsistency on save { update; create; }
+
+  mapping for zdjs_tlr_comm
+    {
+      TlUUID             = TL_UUID;
+      CommentUUID        = COMMENT_UUID;
+      UserProfile        = USER_PROFILE;
+      TlItemNumber       = TL_ITEM_NUMBER;
+      CommentText        = COMMENT_TEXT;
+      LocalCreatedBy     = LOCAL_CREATED_BY;
+      LocalCreatedAt     = LOCAL_CREATED_AT;
+      LocalLastChangedBy = LOCAL_LAST_CHANGED_BY;
+      LocalLastChangedAt = LOCAL_LAST_CHANGED_AT;
+      LastChangedAt      = LAST_CHANGED_AT;
+    }
+}

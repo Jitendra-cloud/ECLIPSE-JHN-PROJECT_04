@@ -1,0 +1,174 @@
+@Metadata.layer: #CORE
+@UI: {
+headerInfo: {
+typeName: 'Timing Letter',
+typeNamePlural: 'Timing Letters'
+}
+}
+annotate entity ZCJS_C_TLR_HEAD with
+{
+
+
+  @UI.facet: [
+   
+  {
+  label: 'Timing Letter',
+  id: 'HeaderData',
+  purpose: #HEADER,
+  type: #FIELDGROUP_REFERENCE,
+  position: 10,
+  targetQualifier: 'HeaderData'
+  }, {
+  label: 'General Data',
+  id: 'GeneralData',
+  purpose: #STANDARD,
+  type: #FIELDGROUP_REFERENCE,
+  position: 20,
+  targetQualifier: 'GeneralData'
+  },{
+  label: 'Items',
+  id: 'Item',
+  purpose: #STANDARD,
+  type: #LINEITEM_REFERENCE,
+  position: 30,
+  targetElement: '_Item'
+  },{
+  label: 'Comments',
+  id: 'Comment',
+  purpose: #STANDARD,
+  type: #LINEITEM_REFERENCE,
+  position: 40,
+  targetElement: '_Comments'
+  },{
+  label: 'Change Control',
+  id: 'ChangeControl',
+  purpose: #STANDARD,
+  type: #FIELDGROUP_REFERENCE,
+  position: 100 ,
+  targetQualifier: 'ChangeControl'
+  }
+  ]
+
+
+  //---------------------------------------Header Data
+  @EndUserText.label: 'Timing Letter Number'
+  @UI.selectionField: [{ position: 10 }]
+  @UI.lineItem: [ { position: 10 , importance: #HIGH } ]
+  @UI.fieldGroup: [{ position: 10, qualifier: 'HeaderData' } ]
+  @UI.identification: [{ position: 10, label: 'Complete', dataAction: 'Complete', type: #FOR_ACTION }]
+  TlNumber;
+
+  @EndUserText.label: 'Timing Letter Status'
+  @UI.selectionField: [{ position: 10 }]
+  @UI.lineItem: [ { position: 20 , importance: #HIGH } ]
+  @UI.fieldGroup: [{ position: 20, qualifier: 'HeaderData' },
+                   { position: 20, qualifier: 'GeneralData' } ]  
+  TlStatus;
+  @EndUserText.label: 'Status Text'
+  @UI.hidden: true
+  HeaderStatusText;
+
+  //---------------------------------------General Data
+  @EndUserText.label: 'Timing Letter Reference'
+  @UI.selectionField: [{ position: 30 }]
+  @UI.lineItem: [ { position: 30 , importance: #HIGH } ]
+  @UI.fieldGroup: [{ position: 30, qualifier: 'GeneralData' }]
+  TlReference;
+
+  @EndUserText.label: 'Change Ticket Reference'
+  @UI.selectionField: [{ position: 40 }]
+  @UI.lineItem: [ { position: 40 , importance: #HIGH } ]
+  @UI.fieldGroup: [{ position: 40, qualifier: 'GeneralData' }]
+  CtReference;
+
+  @UI.lineItem: [ { position: 50 , importance: #MEDIUM, label: '' } ]
+  @UI.identification: [ { position: 50 , label: '' } ]
+  @UI.fieldGroup: [{ position: 50, qualifier: 'GeneralData' }]
+  Aennr;
+
+  @UI.lineItem: [ { position: 60 , importance: #MEDIUM, label: '' } ]
+  @UI.identification: [ { position: 60 , label: '' } ]
+  @UI.fieldGroup: [{ position: 60, qualifier: 'GeneralData' }]
+  SwwWiID;
+
+  @UI.lineItem: [ { position: 70 , importance: #MEDIUM, label: 'Sww Wi stat' } ]
+  @UI.identification: [ { position: 70 , label: 'Sww Wi stat' } ]
+  @UI.fieldGroup: [{ position: 70, qualifier: 'GeneralData', label: 'Sww Wi stat' }]
+  SwwWistat;
+
+  @UI.lineItem: [ { position: 80 , importance: #MEDIUM, label: '' } ]
+  @UI.identification: [ { position: 80 , label: '' } ]
+  @UI.fieldGroup: [{ position: 80, qualifier: 'GeneralData' }]
+  SwwAed;
+
+  @UI.lineItem: [ { position: 90 , importance: #MEDIUM, label: '' } ]
+  @UI.identification: [ { position: 90 , label: '' } ]
+  @UI.fieldGroup: [{ position: 90, qualifier: 'GeneralData' }]
+  WfLevel1;
+
+  @UI.lineItem: [ { position: 100 , importance: #MEDIUM, label: '' } ]
+  @UI.identification: [ { position: 100 , label: '' } ]
+  @UI.fieldGroup: [{ position: 100, qualifier: 'GeneralData' }]
+  WfLevel2;
+
+  @UI.lineItem: [ { position: 110 , importance: #MEDIUM, label: '' } ]
+  @UI.identification: [ { position: 110 , label: '' } ]
+  @UI.fieldGroup: [{ position: 110, qualifier: 'GeneralData' }]
+  WfLevel3;
+  
+  @EndUserText.label: 'Change Number Lead'
+  @UI.lineItem: [{ position: 120, importance: #LOW }]
+  @UI.identification: [{ position: 110 }]
+  @UI.fieldGroup: [{ position: 110, qualifier: 'GeneralData' }]  
+  LeadCN;
+
+  @UI.lineItem: [ { position: 235 , importance: #LOW } ]
+  @UI.fieldGroup: [{ position: 235, qualifier: 'GeneralData' }]
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'ZCJS_R_CSR_PLANT_VH', element: 'werks' } }]
+  Werks;
+
+  @UI.hidden: true
+  CommentText;
+
+  @UI.hidden: true
+  CommentText2;
+
+  @EndUserText.label: 'Created by'
+  @UI.selectionField: [{exclude: true}] // [{ position: 200 } ]
+  @UI.lineItem: [{exclude: true}] // [ { position: 200 , importance: #LOW } ]
+  @UI.fieldGroup: [{ position: 200, qualifier: 'ChangeControl' }]
+  @Consumption.valueHelpDefinition: [{ entity: {name: 'ZCJS_R_USER_NAME_VH' , element: 'UserID' } } ]
+  LocalCreatedBy;
+  @EndUserText.label: 'Created at'
+  @UI.selectionField: [{exclude: true}] // [{ position: 210 }]
+  @UI.lineItem: [{exclude: true}] // [ { position: 210 , importance: #LOW } ]
+  @UI.fieldGroup: [{ position: 210, qualifier: 'ChangeControl' }]
+  LocalCreatedAt;
+  @EndUserText.label: 'Last changed by'
+  @UI.selectionField: [{exclude: true}] // [{ position: 220 }]
+  @UI.lineItem: [{exclude: true}] // [ { position: 220 , importance: #LOW } ]
+  @UI.fieldGroup: [{ position: 220, qualifier: 'ChangeControl' }]
+  @Consumption.valueHelpDefinition: [{ entity: {name: 'ZCJS_R_USER_NAME_VH' , element: 'UserID' } } ]
+  LocalLastChangedBy;
+  @EndUserText.label: 'Last changed at'
+  @UI.selectionField: [{exclude: true}] // [{ position: 230 }]
+  @UI.lineItem: [{exclude: true}] // [ { position: 230 , importance: #LOW } ]
+  @UI.fieldGroup: [{ position: 230, qualifier: 'ChangeControl' }]
+  LocalLastChangedAt;
+  @UI.hidden: true
+  @EndUserText.label: 'Created by Name'
+  LocalCreatedByU;
+  @UI.hidden: true
+  @EndUserText.label: 'Last changed by Name'
+  LocalLastChangedByU;
+
+
+  /*hidden*/
+
+
+
+  @UI.hidden: true
+  TlUUID;
+
+
+}

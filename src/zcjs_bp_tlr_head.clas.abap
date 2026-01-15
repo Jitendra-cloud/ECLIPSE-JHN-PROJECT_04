@@ -1,0 +1,5 @@
+CLASS zcjs_bp_tlr_head DEFINITION PUBLIC ABSTRACT FINAL. " FOR BEHAVIOR OF zcjs_i_tlr_head.
+ENDCLASS.
+
+CLASS zcjs_bp_tlr_head IMPLEMENTATION.
+ENDCLASS.

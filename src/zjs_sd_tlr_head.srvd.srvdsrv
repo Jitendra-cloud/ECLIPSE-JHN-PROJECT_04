@@ -1,0 +1,7 @@
+@EndUserText.label: 'Service Definition fro Timing Letter'
+@ObjectModel.leadingEntity.name: 'ZCJS_C_TLR_HEAD'
+define service ZJS_SD_TLR_HEAD {
+  expose ZCJS_C_TLR_HEAD as TLR_Head;
+  expose ZCJS_C_TLR_ITEM as TLR_Item;
+  expose zcjs_c_tlr_comm as TLR_Comments;
+}

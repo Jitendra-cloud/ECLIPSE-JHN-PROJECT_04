@@ -1,0 +1,103 @@
+@Metadata.layer: #CORE
+@UI: {
+headerInfo: {
+typeName: 'Comment',
+typeNamePlural: 'Commentss'
+}
+}
+annotate entity zcjs_c_tlr_comm with
+{
+
+
+  @UI.facet: [
+
+  {
+  label: 'Comments',
+  id: 'HeaderData',
+  purpose: #HEADER,
+  type: #FIELDGROUP_REFERENCE,
+  position: 10,
+  targetQualifier: 'HeaderData'
+  },{
+  label: 'General Data',
+  id: 'GeneralData',
+  purpose: #STANDARD,
+  type: #FIELDGROUP_REFERENCE,
+  position: 20,
+  targetQualifier: 'GeneralData'
+  },{
+  label: 'Change Control',
+  id: 'ChangeControl',
+  purpose: #STANDARD,
+  type: #FIELDGROUP_REFERENCE,
+  position: 100 ,
+  targetQualifier: 'ChangeControl'
+  }
+  ]
+
+
+  //---------------------------------------Header Data
+  @EndUserText.label: 'Item Number'
+  @UI.selectionField: [{ position: 10 }]
+  @UI.lineItem: [ { position: 10 , importance: #HIGH } ]
+  @UI.fieldGroup: [{ position: 10, qualifier: 'HeaderData' }]
+  TlItemNumber;
+
+  //---------------------------------------General Data
+  @EndUserText.label: 'User profile'
+  @UI.selectionField: [{ position: 20 }]
+  @UI.lineItem: [ { position: 20 , importance: #HIGH } ]
+  @UI.fieldGroup: [{ position: 20, qualifier: 'GeneralData' }]
+  UserProfile;
+
+
+  @EndUserText.label: 'Comments'
+  @UI.selectionField: [ { exclude: true } ]
+  @UI.lineItem: [ { position: 30 , importance: #HIGH } ]
+  @UI.fieldGroup: [{ position: 30, qualifier: 'GeneralData' }]
+  @UI.multiLineText: true
+  CommentText;
+
+
+
+  @EndUserText.label: 'Created by'
+  @UI.selectionField: [{exclude: true}] // [{ position: 200 } ]
+  @UI.lineItem: [{exclude: true}] // [ { position: 200 , importance: #LOW } ]
+  @UI.fieldGroup: [{ position: 200, qualifier: 'ChangeControl' }]
+  @Consumption.valueHelpDefinition: [{ entity: {name: 'ZCJS_R_USER_NAME_VH' , element: 'UserID' } } ]
+  LocalCreatedBy;
+  @EndUserText.label: 'Created at'
+  @UI.selectionField: [{exclude: true}] // [{ position: 210 }]
+  @UI.lineItem: [{exclude: true}] // [ { position: 210 , importance: #LOW } ]
+  @UI.fieldGroup: [{ position: 210, qualifier: 'ChangeControl' }]
+  LocalCreatedAt;
+  @EndUserText.label: 'Last changed by'
+  @UI.selectionField: [{exclude: true}] // [{ position: 220 }]
+  @UI.lineItem: [{exclude: true}] // [ { position: 220 , importance: #LOW } ]
+  @UI.fieldGroup: [{ position: 220, qualifier: 'ChangeControl' }]
+  @Consumption.valueHelpDefinition: [{ entity: {name: 'ZCJS_R_USER_NAME_VH' , element: 'UserID' } } ]
+  LocalLastChangedBy;
+  @EndUserText.label: 'Last changed at'
+  @UI.selectionField: [{exclude: true}] // [{ position: 230 }]
+  @UI.lineItem: [{exclude: true}] // [ { position: 230 , importance: #LOW } ]
+  @UI.fieldGroup: [{ position: 230, qualifier: 'ChangeControl' }]
+  LocalLastChangedAt;
+  @UI.hidden: true
+  @EndUserText.label: 'Created by Name'
+  LocalCreatedByU;
+  @UI.hidden: true
+  @EndUserText.label: 'Last changed by Name'
+  LocalLastChangedByU;
+
+
+
+  /*hidden*/
+
+  @UI.hidden: true
+  TlUUID;
+
+  @UI.hidden: true
+  CommentUUID;
+
+
+}

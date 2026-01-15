@@ -1,0 +1,52 @@
+projection;
+strict ( 1 );
+use draft;
+
+define behavior for ZCJS_C_TLR_HEAD alias TLR_Head
+use etag
+
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Complete;
+  use action fillData;
+  // use action copyLine;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+
+  use association _Item { create; with draft; }
+  use association _Comments { create; with draft; }
+}
+
+
+define behavior for ZCJS_C_TLR_ITEM alias TLR_Item
+use etag
+
+{
+  use update;
+  use delete; //
+
+  use association _Header { with draft; }
+
+  use action Implemented;
+  use action Submit;
+
+}
+
+
+define behavior for ZCJS_C_TLR_COMM alias TLR_Comments
+use etag
+
+{
+  use update;
+  use delete; //
+
+  use association _Header { with draft; }
+
+}
